@@ -1,0 +1,45 @@
+A,3A1,Fluid mechanics I
+A,3A3,Fluid mechanics II
+A,3A5,Thermodynamics and power generation
+A,3A6,Heat and mass transfer
+B,3B1,Radio frequency electronics
+B,3B2,Integrated digital electronics
+B,3B3,Switch-mode electronics
+B,3B4,Electric drive systems
+B,3B5,Semiconductor engineering
+B,3B6,Photonic technology
+C,3C1,Materials processing and design
+C,3C5,Dynamics
+C,3C6,Vibration
+C,3C7,Mechanics of solids
+C,3C8,Machine design
+C,3C9,Fracture mechanics of materials and structures
+D,3D1,Geotechnical engineering I
+D,3D2,Geotechnical engineering II
+D,3D3,Structural materials and design
+D,3D4,Structural analysis and stability
+D,3D5,Water engineering
+D,3D7,Finite element methods
+D,3D8,Building physics and environmental geotechnics
+E,3E1,Business economics
+E,3E2,Marketing
+E,3E3,Modelling risk
+E,3E5,Human resource management
+E,3E6,Organisational behaviour
+E,3E10,Operations management for engineers
+F,3F1,Signals and systems
+F,3F2,Systems and control
+F,3F3,Signal and pattern processing
+F,3F4,Data transmission
+F,3F5,Computer and network systems
+F,3F6,Software engineering and design
+G,3G1,Introduction to molecular bioengineering
+G,3G2,Mathematical physiology
+G,3G3,Introduction to neuroscience
+G,3G4,Medical imaging and 3-D computer graphics
+G,3G5,Biomaterials
+M,3M1,Mathematical methods
+S,4C4,Design methods
+S,4D16,Construction and management
+S,4M12,Partial differential equations and variational methods
+S,4M16,Nuclear power engineering

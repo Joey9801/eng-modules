@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{%block main %}
+  <div id="disabler" class="">
+  </div>
+  
+  <div class="container">
+    <br>
+    <div style="text-align: center;padding-bottom: 40px">
+      <h1>Select all the modules you're doing next year</h1>
+      <p>Don't forget to press submit at the bottom</p>
+    </div>
+    
+    <table class="table">
+      <thead>
+        <tr>
+          <th colspan="3">Module Name</th>
+          <th style="text-align:center;">Doing?</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for module in modules %}
+        <tr id={{module.id}}>
+          <td class="nowrap">{{module.code_name}}</td>
+          <td class="nowrap">-</td>
+          <td>{{module.full_name}}</td>
+          <td class="tick">
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="input-group">
+          <span class="input-group-addon">Update name</span>
+          <input type="text" id="new_name" class="form-control" placeholder="{{user.name}}">
+        </div>
+        <br>
+      </div>
+    </div>
+    
+    <div style="text-align: center;padding-bottom: 40px">
+      <button type="button" class="btn btn-primary btn-lg submit">Submit</button>
+    </div>
+  </div><!-- /.container -->
+
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    var modules = {{user.modules|tojson}}
+    $(init_module_list());
+    
+    function init_module_list() {
+      for(var i=0; i<modules.length; i++){
+        $('#'+ modules[i]).addClass('doing');
+        $('#'+ modules[i]).children('td').last().html("<span class=\"glyphicon glyphicon-ok\"></span>");
+      }
+    }
+    
+    function update_module_list() {
+      //updates the array of module id's
+      modules = new Array()
+      $('.doing').each( function() {
+        modules[modules.length] = parseInt($(this).attr('id'));
+      })
+    }
+    
+    $('tbody > tr').click( function() {
+      var tick = $(this).children('td').last()
+      if($(this).hasClass("doing")){
+        $(this).removeClass("doing");
+        $(tick).html("");
+      }
+      else if(modules.length<10) {
+        $(tick).html("<span class=\"glyphicon glyphicon-ok\"></span>");
+        $(this).addClass("doing");
+      }
+      else {
+        alert("Can only select 10 modules");
+      }
+      update_module_list();
+    });
+    
+    $('.submit').click( function() {
+      console.log("submitting data");
+      console.log("modules = ", modules);
+      var new_name = $('#new_name').val();
+      if(!new_name)
+        new_name = '{{user.name}}'
+      console.log("new_name = ", new_name);
+      
+      //first validation
+      if(modules.length>10)
+        alert("Too many modules \(max 10\)");
+      if(new_name.length > 100)
+        alert("New name must have less than 100 characters")
+
+      
+      $('#disabler').fadeIn(500);
+      
+      var payload = {"modules[]": modules,
+                     "new_name": new_name};
+      
+      $(window).delay(1000).queue(function() {
+        var posting = $.post( "", payload);
+        
+        posting.done(function( data ) { 
+          $('#disabler').fadeOut(500);
+          console.log(data);
+          window.location.href = data.redirect
+        });
+        
+        posting.error(function( data, status, error ) {
+          console.log(error);
+          if(error=="timeout"){
+            alert("The server isn't responding.\n"
+                   +"Check your internet connection and try again");
+          }
+          else{
+            alert("Oops, something wasn't right:\n- " +
+            data.responseJSON.reasons.join('\n- ')
+            + "\n" );
+            $('#disabler').delay(300).fadeOut(500);
+          }
+        });
+      })
+
+    });
+  </script>
+{% endblock %}

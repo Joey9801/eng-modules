@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{%block main %}
+
+  <div class="container">
+    <br>
+    <div class="jumbotron">
+      <h1>CUED Module hub</h1>
+      <h3>Find out who's also doing your modules</h3>
+      <p><a class="btn btn-primary btn-lg" role="button" onclick="window.location.href='/update_modules'">Enter your selection</a>
+         <a class="btn btn-primary btn-lg" role="button" onclick="window.location.href='/view_modules'">View others</a></p>
+       <h3><small>(2nd->3rd year CUED students only)</small></h3>
+    </div>
+
+  </div><!-- /.container -->
+
+  <div class="footer">
+    <div class="container">
+      <p class="text-muted">*This site is in no way affiliated the Cambridge University Engineering Department</p>
+    </div>
+  </div>
+{% endblock %}

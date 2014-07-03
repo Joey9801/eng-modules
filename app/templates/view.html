@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  <div class="container">
+  {% if user.new %}
+    <div class="alert alert-warning" role="alert">
+      Please add your own modules first
+    </div>
+  </div>
+  {% else %}
+  
+  <h1>Your modules</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th colspan="3">Module Name</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for module in user.modules %}
+      <tr id={{module.id}}-row>
+        <td class="nowrap">{{module.code_name}}</td>
+        <td class="nowrap">-</td>
+        <td>{{module.full_name}}</td>
+      </tr>
+      <tr class="name-list-container" id="{{module.id}}-info">
+        <td colspan="3">
+          <div class="row name-list">
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+    
+  <h1>Other modules</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th colspan="3">Module Name</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for module in other_modules %}
+      <tr id={{module.id}}-row>
+        <td class="nowrap">{{module.code_name}}</td>
+        <td class="nowrap">-</td>
+        <td>{{module.full_name}}</td>
+      </tr>
+      <tr class="name-list-container" id="{{module.id}}-info">
+        <td colspan="3">
+          <div class="row name-list">
+
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+{% endblock %}
+
+{%block scripts %}
+  <script>
+  $( function () {
+    $('.name-list-container').children().hide();
+    $('.name-list-container').children().children().hide() 
+  });
+  
+  $("[id$=-row]").click( function () {
+    var id = $(this).attr('id').split('-')[0];
+    var el = this;
+    $.getJSON( '/module/' + id + '/namelist.json', function (data) {
+      $(el).next().find('.name-list').html('');
+      for(var i=0; i<data['namelist'].length; i++){
+        $(el).next().find('.name-list').append(
+        data['namelist'][i]['crsid'] + ' - ' + data['namelist'][i]['name']+'<br>'
+        )
+      }
+      
+      $(el).next().children().slideToggle();
+      $(el).next().children().children().slideToggle( function() {
+        $(el).find('.name-list').html('')
+      });
+    });
+  });
+  </script>
+{% endblock %}
